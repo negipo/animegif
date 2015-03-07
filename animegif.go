@@ -52,7 +52,7 @@ func generateHtml(urls []string) (html string) {
 
 func openHtml(html string) {
 	file, err := ioutil.TempFile(os.TempDir(), "animegif")
-	perror(err)
+	printError(err)
 	ioutil.WriteFile(file.Name(), []byte(html), 0644)
 	exec.Command("open", file.Name()).Start()
 	time.Sleep(time.Second * 1)
@@ -60,7 +60,7 @@ func openHtml(html string) {
 	defer os.Remove(file.Name())
 }
 
-func perror(err error) {
+func printError(err error) {
 	if err != nil {
 		panic(err)
 	}
@@ -97,7 +97,7 @@ func search(page int, keyword string) (urls []string) {
 
 	var response ResponseType
 	err := json.Unmarshal(body, &response)
-	perror(err)
+	printError(err)
 	for _, value := range response.ResponseData.Results {
 		urls = append(urls, value.Url)
 	}
@@ -106,10 +106,10 @@ func search(page int, keyword string) (urls []string) {
 
 func openUrl(req string) (body []byte) {
 	res, err := http.Get(req)
-	perror(err)
+	printError(err)
 	defer res.Body.Close()
 
 	body, err = ioutil.ReadAll(res.Body)
-	perror(err)
+	printError(err)
 	return body
 }
