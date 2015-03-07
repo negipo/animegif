@@ -80,13 +80,13 @@ type ResponseType struct {
 }
 
 func search(page int, keyword string) (urls []string) {
-	per_page := 8
+	perPage := 8
 	base := "http://ajax.googleapis.com/ajax/services/search/images?"
-	start := (page-1)*per_page + 1
+	start := (page-1)*perPage + 1
 
 	params := url.Values{}
 	params.Add("q", keyword)
-	params.Add("rsz", fmt.Sprint(per_page))
+	params.Add("rsz", fmt.Sprint(perPage))
 	params.Add("safe", "off")
 	params.Add("v", "1.0")
 	params.Add("as_filetype", "gif")
