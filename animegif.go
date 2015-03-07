@@ -12,26 +12,24 @@ import (
 	"time"
 )
 
-func perror(err error) {
-	if err != nil {
-		panic(err)
-	}
+func main() {
+	keyword, count := args()
+	urls := fetchUrls(keyword, count)
+	html := generateHtml(urls)
+	openHtml(html)
 }
 
-func main() {
-	var (
-		keyword string
-		count   int
-	)
+func args() (keyword string, count int) {
 	flag.StringVar(&keyword, "k", "yuyushiki", "keyword")
 	flag.IntVar(&count, "c", 8, "count")
 	flag.Parse()
 
+	return keyword, count
+}
+
+func fetchUrls(keyword string, count int) (urls []string) {
 	page := 1
-	var (
-		urls  []string
-		_urls []string
-	)
+	var _urls []string
 	for len(urls) <= count {
 		_urls = search(page, keyword)
 		for _, url := range _urls {
@@ -40,12 +38,19 @@ func main() {
 		page += 1
 	}
 
-	html := "<!DOCTYPE HTML><html><body>"
+	return urls
+}
+
+func generateHtml(urls []string) (html string) {
+	html = "<!DOCTYPE HTML><html><body>"
 	for _, url := range urls {
 		html = html + "<a href='" + url + "' target='_blank'><img src='" + url + "' /></a>"
 	}
 	html = html + "</body></html>"
+	return html
+}
 
+func openHtml(html string) {
 	file, err := ioutil.TempFile(os.TempDir(), "animegif")
 	perror(err)
 	ioutil.WriteFile(file.Name(), []byte(html), 0644)
@@ -54,6 +59,12 @@ func main() {
 	time.Sleep(time.Second * 1)
 
 	defer os.Remove(file.Name())
+}
+
+func perror(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
 
 type ResultType struct {
