@@ -54,8 +54,7 @@ func openHtml(html string) {
 	file, err := ioutil.TempFile(os.TempDir(), "animegif")
 	perror(err)
 	ioutil.WriteFile(file.Name(), []byte(html), 0644)
-	exec.Command("open", file.Name()).Output()
-	perror(err)
+	exec.Command("open", file.Name()).Start()
 	time.Sleep(time.Second * 1)
 
 	defer os.Remove(file.Name())
