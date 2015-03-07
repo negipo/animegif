@@ -91,15 +91,16 @@ func search(page int, keyword string) (urls []string) {
 	base := "http://ajax.googleapis.com/ajax/services/search/images?"
 	start := (page-1)*perPage + 1
 
-	params := url.Values{}
-	params.Add("q", keyword)
-	params.Add("rsz", fmt.Sprint(perPage))
-	params.Add("safe", "off")
-	params.Add("v", "1.0")
-	params.Add("as_filetype", "gif")
-	params.Add("imgsz", "large")
-	params.Add("start", fmt.Sprint(start))
-	params.Add("as_sitesearch", "tumblr.com")
+	params := url.Values{
+		"q":             {keyword},
+		"rsz":           {fmt.Sprint(perPage)},
+		"safe":          {"off"},
+		"v":             {"1.0"},
+		"as_filetype":   {"gif"},
+		"imgsz":         {"large"},
+		"start":         {fmt.Sprint(start)},
+		"as_sitesearch": {"tumblr.com"},
+	}
 
 	body := openUrl(base + params.Encode())
 
