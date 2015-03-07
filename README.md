@@ -14,5 +14,5 @@ $ animegif -k ゆゆ式 -c 10 # opens html file with 10 ゆゆ式 gifs.
 go get github.com/negipo/animegif
 ```
 
-# Lincense
+# License
 MIT
