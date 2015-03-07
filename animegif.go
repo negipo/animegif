@@ -42,9 +42,7 @@ func fetchUrls(keyword string, count int) (urls []string) {
 			return urls
 		}
 
-		for _, url := range _urls {
-			urls = append(urls, url)
-		}
+		urls = append(urls, _urls...)
 		page += 1
 	}
 
