@@ -15,6 +15,11 @@ import (
 func main() {
 	keyword, count := args()
 	urls := fetchUrls(keyword, count)
+	if len(urls) == 0 {
+		fmt.Println("no image found")
+		return
+	}
+
 	html := generateHtml(urls)
 	openHtml(html)
 }
@@ -32,6 +37,11 @@ func fetchUrls(keyword string, count int) (urls []string) {
 	var _urls []string
 	for len(urls) <= count {
 		_urls = search(page, keyword)
+
+		if len(_urls) == 0 {
+			return urls
+		}
+
 		for _, url := range _urls {
 			urls = append(urls, url)
 		}
