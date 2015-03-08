@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -58,12 +59,12 @@ func fetchUrls(keyword string, count int) (urls []string) {
 }
 
 func generateHtml(urls []string) (html string) {
-	html = "<!DOCTYPE HTML><html><body>"
+	htmls := []string{"<!DOCTYPE HTML><html><body>"}
 	for _, url := range urls {
-		html = html + "<a href='" + url + "' target='_blank'><img src='" + url + "' /></a>"
+		htmls = append(htmls, "<a href='"+url+"' target='_blank'><img src='"+url+"' /></a>")
 	}
-	html = html + "</body></html>"
-	return html
+	htmls = append(htmls, "</body></html>")
+	return strings.Join(htmls, "")
 }
 
 func openHtml(html string) {
