@@ -12,6 +12,10 @@ import (
 	"time"
 )
 
+const defaultCount = 8
+const maxCount = 80
+const defaultKeyword = "yuyushiki"
+
 func main() {
 	keyword, count := args()
 	urls := fetchUrls(keyword, count)
@@ -25,9 +29,13 @@ func main() {
 }
 
 func args() (keyword string, count int) {
-	flag.StringVar(&keyword, "k", "yuyushiki", "keyword")
-	flag.IntVar(&count, "c", 8, "count")
+	flag.StringVar(&keyword, "k", defaultKeyword, "keyword")
+	flag.IntVar(&count, "c", defaultCount, "count")
 	flag.Parse()
+
+	if count > maxCount {
+		count = maxCount
+	}
 
 	return keyword, count
 }
