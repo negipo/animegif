@@ -35,7 +35,7 @@ func args() (keyword string, count int) {
 func fetchUrls(keyword string, count int) (urls []string) {
 	page := 1
 	var _urls []string
-	for len(urls) <= count {
+	for len(urls) < count {
 		_urls = search(page, keyword)
 
 		if len(_urls) == 0 {
