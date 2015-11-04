@@ -71,10 +71,27 @@ func openHtml(html string) {
 	file, err := ioutil.TempFile(os.TempDir(), "animegif")
 	printError(err)
 	ioutil.WriteFile(file.Name(), []byte(html), 0644)
-	exec.Command("open", file.Name()).Start()
+	openCommand, err := findOpenCommand()
+	printError(err)
+	err = exec.Command(openCommand, file.Name()).Start()
+	printError(err)
 	time.Sleep(time.Second * 1)
 
 	defer os.Remove(file.Name())
+}
+
+var openCommands = []string{
+	"open",     // Mac OS X
+	"xdg-open", // Linux
+}
+
+func findOpenCommand() (string, error) {
+	for _, c := range openCommands {
+		if _, err := exec.LookPath(c); err == nil {
+			return c, nil
+		}
+	}
+	return "", fmt.Errorf("Cannot find open commands: %v", openCommands)
 }
 
 func printError(err error) {
