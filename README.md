@@ -1,6 +1,6 @@
 # Animegif
 Provides `animegif` command to search animated gifs.
-Only works with Mac OS X.
+Only works with Mac OS X and Linux.
 
 # Usage
 
