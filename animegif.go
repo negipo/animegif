@@ -16,10 +16,11 @@ import (
 const defaultCount = 8
 const maxCount = 80
 const defaultKeyword = "yuyushiki"
+const defaultPage = 1
 
 func main() {
-	keyword, count := args()
-	urls := fetchUrls(keyword, count)
+	keyword, count, page := args()
+	urls := fetchUrls(keyword, count, page)
 	if len(urls) == 0 {
 		fmt.Println("no image found")
 		return
@@ -29,20 +30,20 @@ func main() {
 	openHtml(html)
 }
 
-func args() (keyword string, count int) {
+func args() (keyword string, count, page int) {
 	flag.StringVar(&keyword, "k", defaultKeyword, "keyword")
 	flag.IntVar(&count, "c", defaultCount, "count")
+	flag.IntVar(&page, "p", defaultPage, "initial page")
 	flag.Parse()
 
 	if count > maxCount {
 		count = maxCount
 	}
 
-	return keyword, count
+	return keyword, count, page
 }
 
-func fetchUrls(keyword string, count int) (urls []string) {
-	page := 1
+func fetchUrls(keyword string, count, page int) (urls []string) {
 	var _urls []string
 	for len(urls) < count {
 		_urls = search(page, keyword)

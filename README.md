@@ -7,9 +7,12 @@ Only works with Mac OS X.
 ```
 $ animegif --help
 Usage of animegif:
-  -c=8: count
-  -k="yuyushiki": keyword
-
+  -c int
+        count (default 8)
+  -k string
+        keyword (default "yuyushiki")
+  -p int
+        initial page (default 1)
 $ animegif -k=ゆゆ式 -c=10 # opens html file with 10 ゆゆ式 gifs.
 ```
 
